@@ -26,7 +26,7 @@ def load_data(args):
     Load training data and split it into training and validation set
     """
     #reads CSV file into a single dataframe variable
-    data_df = pd.read_csv(os.path.join(os.getcwd(), args.data_dir, 'driving_log.csv'), names=['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed'])
+    data_df = pd.read_csv(os.path.join(os.getcwd(), args.data_dir, 'driving_log.csv'), names=['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed'])
 
     #yay dataframes, we can select rows and columns by their names
     #we'll store the camera images as our input data
@@ -43,7 +43,10 @@ def load_data(args):
 
 def build_model(args):
     """
-    NVIDIA model used
+    Model is reference from NVIDIA's paper:
+	'End to End Learning for Self-Driving Cars'
+	The structure of the neural network can be splited as following:
+	
     Image normalization to avoid saturation and make gradients work better.
     Convolution: 5x5, filter: 24, strides: 2x2, activation: ELU
     Convolution: 5x5, filter: 36, strides: 2x2, activation: ELU
@@ -55,6 +58,8 @@ def build_model(args):
     Fully connected: neurons: 50, activation: ELU
     Fully connected: neurons: 10, activation: ELU
     Fully connected: neurons: 1 (output)
+	
+	Thanks to Keras for implementing the above structure in code easily
 
     # the convolution layers are meant to handle feature engineering
     the fully connected layer for predicting the steering angle.
@@ -77,8 +82,8 @@ def build_model(args):
     model.summary()
 
     return model
-
-
+	
+	
 def train_model(model, args, X_train, X_valid, y_train, y_valid):
     """
     Train the model
@@ -133,7 +138,7 @@ def main():
     Load train/validation data set and train the model
     """
     parser = argparse.ArgumentParser(description='Behavioral Cloning Training Program')
-    parser.add_argument('-d', help='data directory',        dest='data_dir',          type=str,   default='Data')
+    parser.add_argument('-d', help='data directory',        dest='data_dir',          type=str,   default='data')
     parser.add_argument('-t', help='test size fraction',    dest='test_size',         type=float, default=0.2)
     parser.add_argument('-k', help='drop out probability',  dest='keep_prob',         type=float, default=0.5)
     parser.add_argument('-n', help='number of epochs',      dest='nb_epoch',          type=int,   default=10)
