@@ -23,13 +23,6 @@ default_random_engine gen;
 
 static int NUM_PARTICLES = 200;
 
-//for the update step
-double bivariate_normal(double x, double y, double mu_x, double mu_y, double sig_x, double sig_y) {
-	return exp(-((x-mu_x)*(x-mu_x)/(2*sig_x*sig_x) + (y-mu_y)*(y-mu_y)/(2*sig_y*sig_y))) / (2.0*3.14159*sig_x*sig_y);
-}
-
-
-
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of 
 	//   x, y, theta and their uncertainties from GPS) and all weights to 1. 
@@ -133,8 +126,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   http://planning.cs.uiuc.edu/node99.html
 
 
-	// Clear weights
-	weights.clear();
+  // Clear weights
+  weights.clear();
 
 
   for (unsigned int i=0; i<particles.size(); i++) {
@@ -160,15 +153,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     // step 2: convert observations coordinates from vehicle to map
     vector<LandmarkObs> observations_map;
 
-		for (unsigned int j=0; j<observations.size(); j++){
-			LandmarkObs m_observation;
+	for (unsigned int j=0; j<observations.size(); j++){
+		LandmarkObs m_observation;
 
-			m_observation.x = observations[j].x * cos(particles[i].theta) - observations[j].y * sin(particles[i].theta) + particles[i].x;
-			m_observation.y = observations[j].x * sin(particles[i].theta) + observations[j].y * cos(particles[i].theta) + particles[i].y;
-			m_observation.id = -1;
+		m_observation.x = observations[j].x * cos(particles[i].theta) - observations[j].y * sin(particles[i].theta) + particles[i].x;
+		m_observation.y = observations[j].x * sin(particles[i].theta) + observations[j].y * cos(particles[i].theta) + particles[i].y;
+		m_observation.id = -1;
 
-			observations_map.push_back(m_observation);
-		}
+		observations_map.push_back(m_observation);
+	}
 
     // step 3: find landmark index for each observation
     dataAssociation(predictions, observations_map);
@@ -185,7 +178,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     }
 
     weights.push_back(particles[i].weight);
-	}
+  }
 
 }
 
@@ -219,16 +212,16 @@ Particle ParticleFilter::SetAssociations(Particle& particle, const std::vector<i
   // sense_x: the associations x mapping already converted to world coordinates
   // sense_y: the associations y mapping already converted to world coordinates
 
-	//Clear the previous associations
-	particle.associations.clear();
-	particle.sense_x.clear();
-	particle.sense_y.clear();
+  //Clear the previous associations
+  particle.associations.clear();
+  particle.sense_x.clear();
+  particle.sense_y.clear();
 
   particle.associations= associations;
   particle.sense_x = sense_x;
   particle.sense_y = sense_y;
 
-	return particle;
+  return particle;
 }
 
 string ParticleFilter::getAssociations(Particle best)
