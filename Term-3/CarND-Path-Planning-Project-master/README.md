@@ -64,6 +64,38 @@ the path has processed since last time.
 
 A really helpful resource for doing this project and creating smooth trajectories was using http://kluge.in-chemnitz.de/opensource/spline/, the spline function is in a single hearder file is really easy to use.
 
+## User Code 
+
+#### Part 1 find the surrond cars 
+This part loop through the sensor fustion data and determine each car's lane location 
+based on the d value. For example when d is in (0, 4), the car is in LEFT lane. 
+(4, 8) for CENTER land and (8, 12) for RIGHT lane. Then assume a start lane at center lane,
+take the sensor fusion s value, if the neighbour car is about 30 meter ahead, count it as a 
+car in ahead. To determine if there is a neighbour in left or right lane is similar. Check if there 
+is a left or right lane first and if the car on left/right lane s value is about 30 meter ahead and 
+10 meter back, count there is car in letf/right lane. These parameters are able to change by using 
+#define macro at the beginning of the code. 
+
+The code is between line 257 and 317
+
+#### Part 2 determine how to change the lane based on above information
+When detect a car is ahead, our host car should able to decide if make a lane change to left/right, 
+or keep following the ahead car if left/right lane has a car. 
+
+The code implements such a logic is between line 320 and 347.
+
+#### Part 3 generate a trajectory
+Generate trajectory based on 5 points. Two points are from previous path and three points are
+taken from every 30 meter ahead of the host car. Include the spline.h file to help generate 
+trajectory. 
+
+The code is between 356 and 454
+
+## Video Output
+The simulation is captured in a video file and can be found at here:
+https://www.youtube.com/watch?v=6EMYti4zex8&t=1s
+
+
 ---
 
 ## Dependencies
