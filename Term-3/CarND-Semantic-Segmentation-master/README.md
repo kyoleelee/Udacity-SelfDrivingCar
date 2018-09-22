@@ -2,6 +2,10 @@
 ### Introduction
 In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
 
+A demo result can be found [here](https://www.youtube.com/watch?v=m581B81t8xo):
+The demo combines the testing pictures to a short video.
+
+
 ### Setup
 ##### GPU
 `main.py` will check to make sure you are using GPU - if you don't have a GPU on your system, you can use AWS or another cloud computing platform.
@@ -33,6 +37,12 @@ python main.py
  - `main.py`
  - `project_tests.py`
  - Newest inference images from `runs` folder  (**all images from the most recent run**)
+ 
+I have updated both main.py and also uploaded a python notebook file for particial testing. 
+The notebook file is main_code.ipynb
+
+The recent run images can be found in 'run\run_pictures' folder
+
  
  ### Tips
 - The link for the frozen `VGG16` model is hardcoded into `helper.py`.  The model can be found [here](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/vgg.zip).
